@@ -11,13 +11,21 @@
     "test": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "aws-server": "node aws-server.js"
   },
   "dependencies": {
     "firebase": "^13.1.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "react-router-dom": "^7.18.4"
+    "react-router-dom": "^7.18.4",
+    "express": "^5.3.0",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.9",
+    "firebase-admin": "^14.5.0",
+    "@aws-sdk/client-s3": "^3.1161.0",
+    "@aws-sdk/s3-request-presigner": "^3.1161.0",
+    "@aws-sdk/client-bedrock-runtime": "^3.1161.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

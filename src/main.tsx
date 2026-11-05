@@ -13,6 +13,8 @@ import { MedicinesPage }     from './pages/MedicinesPage';
 import { HealthLogPage }     from './pages/HealthLogPage';
 import { WeeklySummaryPage } from './pages/WeeklySummaryPage';
 import { TrendsPage }        from './pages/TrendsPage';
+import { DocumentsPage }     from './pages/DocumentsPage';
+import { MedicationAssistantPage } from './pages/MedicationAssistantPage';
 
 // ── Inner app — only shown when authenticated ─────────────────────
 function AuthenticatedApp() {
@@ -44,6 +46,8 @@ function AuthenticatedApp() {
             <Route path="/health"    element={<HealthLogPage />} />
             <Route path="/summary"   element={<WeeklySummaryPage />} />
             <Route path="/trends"    element={<TrendsPage />} />
+            <Route path="/documents" element={<DocumentsPage />} />
+            <Route path="/assistant" element={<MedicationAssistantPage />} />
           </Routes>
         </AppLayout>
       </AppDataProvider>

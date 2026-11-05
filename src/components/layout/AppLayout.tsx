@@ -4,11 +4,13 @@ import { Sidebar } from './Sidebar';
 import { useAppData } from '../../context/AppDataContext';
 
 const PAGE_META: Record<string, { title: string; sub: string }> = {
-  '/':         { title: 'Dashboard',       sub: "Today's medication schedule" },
-  '/medicines':{ title: 'My Medicines',    sub: 'Manage your medications and dose times' },
-  '/health':   { title: 'Health Log',      sub: 'Record and review your vital measurements' },
-  '/summary':  { title: 'Weekly Summary',  sub: 'Medication adherence this week' },
-  '/trends':   { title: 'Health Trends',   sub: 'Track your health metrics over time' },
+  '/':          { title: 'Dashboard',       sub: "Today's medication schedule" },
+  '/medicines': { title: 'My Medicines',    sub: 'Manage your medications and dose times' },
+  '/health':    { title: 'Health Log',      sub: 'Record and review your vital measurements' },
+  '/summary':   { title: 'Weekly Summary',  sub: 'Medication adherence this week' },
+  '/trends':    { title: 'Health Trends',   sub: 'Track your health metrics over time' },
+  '/documents': { title: 'Documents',       sub: 'Securely store and manage medical documents' },
+  '/assistant': { title: 'AI Assistant',    sub: 'Get answers about your medications' },
 };
 
 function formatDate() {

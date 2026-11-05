@@ -1,0 +1,37 @@
+{
+  "generatedAt": "2026-10-31T12:46:34.859Z",
+  "projectRoot": "C:\\Users\\DELL\\Documents\\KIRO\\meditrack\\aws-starter-kit\\aws-starter-kit",
+  "language": "JavaScript",
+  "framework": "Node backend",
+  "backend": "existing Node backend",
+  "backendEntry": "server.js",
+  "packageManager": "npm",
+  "fileCount": 7,
+  "keyFiles": [
+    "iam-policy.json",
+    "package-lock.json",
+    "package.json",
+    "public\\index.html",
+    "server.js"
+  ],
+  "signals": {
+    "hasFileInput": true,
+    "mentionsUpload": true,
+    "mentionsChatOrAI": true,
+    "mentionsBlogOrContent": true,
+    "mentionsForm": true
+  },
+  "suggestions": {
+    "s3": [
+      "Store user file/image uploads (you have upload-related code/UI).",
+      "Save form attachments or exported submissions to S3.",
+      "Host images/media for your posts or products in S3."
+    ],
+    "bedrock": [
+      "Add an AI chat/assistant widget (you already reference chat/AI).",
+      "Auto-generate titles, summaries, or product descriptions with Nova Lite.",
+      "Summarize or auto-reply to form/feedback submissions."
+    ]
+  },
+  "recommendedSetupMode": "existing-backend"
+}
