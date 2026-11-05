@@ -61,15 +61,16 @@ export async function uploadFileToS3(
     reader.readAsDataURL(file);
   });
 
-  const { s3Key } = await awsPost('/documents/upload', {
+  const result = await awsPost('/documents/upload', {
     fileName: file.name,
     contentType: file.type || 'application/octet-stream',
     docId,
     data: base64Data,
   });
 
-  if (!s3Key) throw new Error('Upload failed: no S3 key returned.');
-  return { s3Key };
+  if (result.error) throw new Error(result.error);
+  if (!result.s3Key) throw new Error('Upload failed: no S3 key returned.');
+  return { s3Key: result.s3Key };
 }
 
 /**
