@@ -1,9 +1,4 @@
 // aws/firebaseAuth.js — Firebase Admin token verification middleware
-// Verifies the Firebase ID token sent from the frontend and extracts the UID.
-//
-// Uses ES module named imports (firebase-admin v12+ ESM pattern):
-//   import { initializeApp, cert } from 'firebase-admin'
-//   import { getAuth } from 'firebase-admin/auth'
 import { initializeApp, cert } from 'firebase-admin';
 import { getAuth } from 'firebase-admin/auth';
 import fs from 'fs';
@@ -14,40 +9,50 @@ let initialized = false;
 function initAdmin() {
   if (initialized) return;
 
-  const keyPath = process.env.FIREBASE_SERVICE_ACCOUNT_KEY || './firebase-service-account.json';
+  let serviceAccount = null;
 
-  if (!fs.existsSync(keyPath)) {
-    console.error('[firebaseAuth] Service account key not found: ' + keyPath);
-    console.error('  Download from: Firebase Console → Project Settings → Service Accounts → Generate new private key');
-    console.error('  Save as firebase-service-account.json in the project root');
-    return;
+  // Option 1: Service account JSON provided as env var (for Render/cloud deployment)
+  if (process.env.FIREBASE_SERVICE_ACCOUNT_JSON) {
+    try {
+      serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_JSON);
+      console.log('[firebaseAuth] Using service account from environment variable.');
+    } catch (e) {
+      console.error('[firebaseAuth] Failed to parse FIREBASE_SERVICE_ACCOUNT_JSON:', e.message);
+      return;
+    }
+  } else {
+    // Option 2: Service account JSON file path (for local development)
+    const keyPath = process.env.FIREBASE_SERVICE_ACCOUNT_KEY || './firebase-service-account.json';
+    if (!fs.existsSync(keyPath)) {
+      console.error('[firebaseAuth] Service account key not found:', keyPath);
+      console.error('  Set FIREBASE_SERVICE_ACCOUNT_JSON env var or place firebase-service-account.json in project root.');
+      return;
+    }
+    try {
+      serviceAccount = JSON.parse(fs.readFileSync(keyPath, 'utf8'));
+      console.log('[firebaseAuth] Using service account from file:', keyPath);
+    } catch (e) {
+      console.error('[firebaseAuth] Failed to read service account file:', e.message);
+      return;
+    }
   }
 
   try {
-    const serviceAccount = JSON.parse(fs.readFileSync(keyPath, 'utf8'));
-    const app = initializeApp({
-      credential: cert(serviceAccount),
-    });
+    const app = initializeApp({ credential: cert(serviceAccount) });
     auth = getAuth(app);
     initialized = true;
     console.log('[firebaseAuth] Firebase Admin initialized successfully.');
   } catch (err) {
     console.error('[firebaseAuth] Failed to initialize Firebase Admin:', err.message);
-    // Do not crash — the server still runs, but token verification will fail gracefully.
   }
 }
 
-// Initialize immediately at module load so status is visible at startup.
 initAdmin();
 
-/**
- * Express middleware: verifies the Firebase ID token from the
- * Authorization header and attaches `req.uid` on success.
- */
 export async function verifyToken(req, res, next) {
   if (!initialized || !auth) {
     return res.status(500).json({
-      error: 'Firebase Admin not configured. Check server logs for setup instructions.',
+      error: 'Firebase Admin not configured. Check server logs.',
     });
   }
 
